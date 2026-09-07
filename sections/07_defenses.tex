@@ -2,8 +2,8 @@
 \subsection{KNN Sanitization Baseline}
 We evaluated K-Nearest Neighbors (KNN) Sanitization, which replaces each context row with the geometric mean of its $K$ nearest neighbors. While intuitive, this defense was surprisingly ineffective. At $K=3$, the MSE only dropped from 2.01 to 1.82, leaving the adversarial alignment largely intact.
 
-\subsection{Proposed Defense: Context Subsampling}
-We propose \textit{Context Subsampling}. Because tabular data is order-invariant, we can randomly drop a percentage of context rows during inference without disrupting the global statistical distribution.
+\subsection{Proposed Context Subsampling}
+We propose \textit{Context Subsampling} as a zero-cost defense. During inference, the system randomly drops a percentage (e.g., 30\% to 50\%) of the context rows before computing the self-attention matrices. For classification tasks, this dropout is strictly stratified to ensure that minority classes in imbalanced datasets are not entirely erased. Because TabFM's Set Transformer uses pooling layers that are theoretically invariant to permutation and context size, the model can still infer the decision boundary from the remaining clean data. However, the exact spatial alignment of the adversarial gradients is permanently destroyed.
 
 \begin{figure}[h]
     \centering

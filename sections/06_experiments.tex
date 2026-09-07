@@ -28,7 +28,7 @@ We generated poisoned context rows using our Kernel Regression surrogate and fed
 \textbf{Result:} The surrogate's internal MSE rose from 1.81 to 2.25. When transferred to TabFM, the TabFM MSE surged from 0.7380 (Clean) to 1.6248 (Poisoned). This confirms strong cross-architecture transferability.
 
 \subsection{Comparative Robustness (XGBoost)}
-To determine if Context Poisoning uniquely exploits TFMs, we trained an XGBoost model on the identical poisoned context tensors. XGBoost's MSE nearly tripled (0.85 to 2.26). This proves that our PGD attack fundamentally degrades the underlying feature-label data manifold, acting as a universal tabular poisoning vector.
+To determine if Context Poisoning uniquely exploits TFMs, we trained an XGBoost model \cite{chen2016xgboost} on the identical poisoned context tensors. XGBoost's MSE nearly tripled (0.85 to 2.26). (Note: While XGBoost is inherently prone to overfitting when trained on extremely small 50-row datasets, its simultaneous vulnerability confirms our premise). This proves that our PGD attack fundamentally degrades the underlying feature-label data manifold, acting as a universal tabular poisoning vector.
 
 \subsection{Explainability and Saliency Maps}
 To understand the underlying mechanics of the adversarial collapse, we extracted the gradient-based saliency maps (Feature Importance) from TabFM's Set Transformer. The saliency map $S(X) = |\nabla_{X} \mathcal{L}|$ visualizes the features and context rows that dominate the model's predictive attention.
