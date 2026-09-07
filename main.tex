@@ -20,6 +20,7 @@
 
 \begin{abstract}
 Tabular Foundation Models (such as TabFM and TabPFN) process heterogeneous tabular data via In-Context Learning (ICL) without requiring gradient-based parameter updates. While previous studies have extensively addressed their scaling efficiency and zero-shot capabilities, the security implications of their ICL window remain largely unexplored. In this paper, we demonstrate a critical vulnerability: \textit{Adversarial Context Poisoning}. By applying imperceptible, schema-compliant perturbations (bounded by $\epsilon=0.05$) to a small subset of the training context, we successfully dictate the model's predictions on untouched query samples. We introduce a memory-efficient stochastic Projected Gradient Descent (PGD) attack capable of maximizing general error on the TabFM architecture. Furthermore, we expose extreme hyper-fragility at $1\%$ noise budgets, establish successful Black-Box transferability using differentiable kernel surrogates, and evaluate baseline robustness against traditional tree-based models like XGBoost. Finally, we propose \textit{Context Subsampling}---randomly dropping context rows during inference---as a highly robust, zero-cost defense mechanism that shatters the adversarial alignment, vastly outperforming standard K-Nearest Neighbors (KNN) sanitization. Code and data to reproduce our findings are provided in the supplementary material.
+All code, models, and empirical data are available at: \url{https://github.com/akashadsare/tabfm-adversarial-poisoning}
 \end{abstract}
 
 \input{sections/01_introduction}
