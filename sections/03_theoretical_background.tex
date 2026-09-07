@@ -11,7 +11,7 @@ Let $\mathcal{C}$ be the set of continuous feature indices and $\mathcal{M}$ be 
 \begin{equation}
     x_{adv}^{(t+1)}[i] = 
     \begin{cases} 
-      \Pi_{[b_{min}, b_{max}]} \left( x_{adv}^{(t)}[i] - \alpha \cdot \text{sgn}(\nabla L_i) \right) & \text{if } i \in \mathcal{C} \\
+      \Pi_{[b_{min}, b_{max}]} \left( x_{adv}^{(t)}[i] + \alpha \cdot \text{sgn}(\nabla L_i) \right) & \text{if } i \in \mathcal{C} \\
       x_{clean}[i] & \text{if } i \in \mathcal{M}
     \end{cases}
 \end{equation}
