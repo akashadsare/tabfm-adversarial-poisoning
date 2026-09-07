@@ -1,6 +1,6 @@
 \section{Experiments}
 \subsection{Massive Multi-Dataset Vulnerability Benchmark}
-To validate that Adversarial Context Poisoning is a universal vulnerability across heterogeneous data modalities, we evaluated the attack across three highly distinct UCI Machine Learning datasets: California Housing (spatial regression), Breast Cancer Wisconsin (medical classification), and Diabetes (medical regression). In all tasks, the model was subjected to a fast-tracked 30-step Continuous Subspace PGD attack with an imperceptible $\epsilon=0.05$ boundary.
+To validate that Adversarial Context Poisoning is a universal vulnerability across heterogeneous data modalities, we evaluated the attack across three highly distinct standard tabular benchmark datasets: California Housing (spatial regression), Breast Cancer Wisconsin (medical classification), and the Efron et al. (2004) Diabetes dataset (medical regression). In all tasks, the model was subjected to a fast-tracked 30-step Continuous Subspace PGD attack with an imperceptible $\epsilon=0.05$ boundary.
 
 \begin{table}[h]
 \centering
@@ -17,7 +17,7 @@ Diabetes & Regression (MSE) & 0.3223 & 0.8920 \\
 \label{tab:benchmark}
 \end{table}
 
-As detailed in Table \ref{tab:benchmark}, TabFM's predictive capabilities were uniformly shattered across all modalities. Most notably, on the Breast Cancer classification task, the model's baseline zero-shot accuracy (which is bottlenecked at 70.0\% due to the strict 50-row in-context learning constraint, compared to >90\% for fully fine-tuned models) was plunged to an absolute 0.0\%. This confirms that Context Poisoning acts as a universal tabular data exploitation vector, regardless of the underlying task distribution.
+As detailed in Table \ref{tab:benchmark}, TabFM's predictive capabilities were uniformly shattered across all modalities. Most notably, on the Breast Cancer classification task, the model's baseline zero-shot accuracy (which was evaluated at 70.0\% due to the selected 50-row context window, compared to >90\% for fully fine-tuned models) was plunged to an absolute 0.0\%. This 0.0\% result was achieved by utilizing a \textit{targeted} label-flipping PGD formulation, perfectly dictating the model's predictions to the incorrect class. This confirms that Context Poisoning acts as a universal tabular data exploitation vector, regardless of the underlying task distribution.
 
 \subsection{Categorical Generalization (Adult Census)}
 Using our Continuous Subspace Poisoning methodology, we attacked the Adult Census dataset, which contains heavily mixed categorical variables (Gender, Education). The attack strictly preserved categorical constraints.

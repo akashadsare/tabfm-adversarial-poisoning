@@ -21,7 +21,7 @@ The core challenge in attacking tabular data is the presence of discrete, catego
 \hspace{0.5cm} 6. Compute forward pass: $\hat{y} = \text{TabFM}(X_{adv}^{(t)}, y_c, X_q)$ \\
 \hspace{0.5cm} 7. Compute Loss: $L = \text{MSE}(\hat{y}, y_q)$ \\
 \hspace{0.5cm} 8. Compute Gradients: $\nabla_X = \frac{\partial L}{\partial X_{adv}^{(t)}}$ \\
-\hspace{0.5cm} 9. Gradient Step: $\tilde{X} = X_{adv}^{(t)} - \alpha \cdot \text{sgn}(\nabla_X)$ \\
+\hspace{0.5cm} 9. Gradient Step (Ascent): $\tilde{X} = X_{adv}^{(t)} + \alpha \cdot \text{sgn}(\nabla_X)$ \\
 \hspace{0.5cm} 10. L-infinity Projection: $\tilde{X} = \text{clip}(\tilde{X}, X_c - \epsilon, X_c + \epsilon)$ \\
 \hspace{0.5cm} 11. Schema Projection: $\tilde{X} = \text{clip}(\tilde{X}, b_{min}, b_{max})$ \\
 \hspace{0.5cm} 12. Categorical Restoration: $X_{adv}^{(t+1)} = \text{where}(\mathcal{M}, X_c, \tilde{X})$ \\
