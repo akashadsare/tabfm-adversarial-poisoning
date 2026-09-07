@@ -1,0 +1,18 @@
+\section{Theoretical Background}
+\subsection{Set Transformers and Row Interaction}
+TabFM utilizes a permutation-invariant Set Transformer. Given a context window $X \in \mathbb{R}^{N \times D}$, the model computes attention across the row dimension to aggregate feature representations. The self-attention mechanism is defined as:
+\begin{equation}
+    \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
+\end{equation}
+Because the softmax function is highly non-linear and exponentiated, a carefully crafted perturbation $\delta$ added to $K$ can drastically alter the attention distribution. If the perturbation aligns with the dominant eigenvectors of the query space, the model's representations will collapse toward the attacker's chosen target, ignoring the clean data manifold.
+
+\subsection{Continuous Subspace Projection}
+Let $\mathcal{C}$ be the set of continuous feature indices and $\mathcal{M}$ be the set of categorical feature indices. For an input vector $x$, we strictly isolate the gradient flow:
+\begin{equation}
+    x_{adv}^{(t+1)}[i] = 
+    \begin{cases} 
+      \Pi_{[b_{min}, b_{max}]} \left( x_{adv}^{(t)}[i] - \alpha \cdot \text{sgn}(\nabla L_i) \right) & \text{if } i \in \mathcal{C} \\
+      x_{clean}[i] & \text{if } i \in \mathcal{M}
+    \end{cases}
+\end{equation}
+This mathematically guarantees that our attacks are perfectly valid under strict database schemas.

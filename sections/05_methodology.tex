@@ -1,0 +1,47 @@
+\section{Methodology}
+Our methodology is divided into three primary components: the formulation of Continuous Subspace Poisoning, the memory-efficient Stochastic Ensemble Micro-Batching technique for scaling the attack to massive Set Transformers, and the derivation of a fully differentiable Black-Box surrogate.
+
+\subsection{Continuous Subspace Poisoning}
+The core challenge in attacking tabular data is the presence of discrete, categorical variables. PyTorch embedding layers utilize non-differentiable \texttt{LongTensor} indices, meaning standard backpropagation yields zero-gradients for these columns. Instead of relying on computationally expensive discrete optimization (e.g., Gumbel-Softmax relaxations), we isolate the gradient flow entirely to the continuous subspace.
+
+\begin{table}[h]
+\centering
+\caption{Continuous Subspace PGD for TabFM}
+\label{alg:pgd}
+\begin{tabular}{p{0.9\linewidth}}
+\toprule
+\textbf{Input:} Clean context $X_c$, Labels $y_c$, Query $X_q$, Target $y_q$, Epsilon $\epsilon$, Steps $T$, Alpha $\alpha$ \\
+\textbf{Output:} Poisoned context $X_{adv}$ \\
+\midrule
+1. Initialize $X_{adv}^{(0)} \leftarrow X_c$ \\
+2. Extract boolean categorical mask $\mathcal{M}$ from schema \\
+3. Calculate schema bounds $b_{min}, b_{max}$ from $X_c$ \\
+4. \textbf{for} $t = 0$ \textbf{to} $T-1$ \textbf{do} \\
+\hspace{0.5cm} 5. Sample mini-batch index $i$ from Ensemble \\
+\hspace{0.5cm} 6. Compute forward pass: $\hat{y} = \text{TabFM}(X_{adv}^{(t)}, y_c, X_q)$ \\
+\hspace{0.5cm} 7. Compute Loss: $L = \text{MSE}(\hat{y}, y_q)$ \\
+\hspace{0.5cm} 8. Compute Gradients: $\nabla_X = \frac{\partial L}{\partial X_{adv}^{(t)}}$ \\
+\hspace{0.5cm} 9. Gradient Step: $\tilde{X} = X_{adv}^{(t)} - \alpha \cdot \text{sgn}(\nabla_X)$ \\
+\hspace{0.5cm} 10. L-infinity Projection: $\tilde{X} = \text{clip}(\tilde{X}, X_c - \epsilon, X_c + \epsilon)$ \\
+\hspace{0.5cm} 11. Schema Projection: $\tilde{X} = \text{clip}(\tilde{X}, b_{min}, b_{max})$ \\
+\hspace{0.5cm} 12. Categorical Restoration: $X_{adv}^{(t+1)} = \text{where}(\mathcal{M}, X_c, \tilde{X})$ \\
+\textbf{end for} \\
+\midrule
+\textbf{return} $X_{adv}^{(T)}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As shown in Table \ref{alg:pgd}, we enforce a strict categorical restoration at every step. By utilizing an internal boolean mask $\mathcal{M}$, the algorithm guarantees that immutable attributes (e.g., Marital Status, Gender) are untouched, while continuous attributes (e.g., Age, Capital Gain) are heavily optimized to trick the attention graph.
+
+\subsection{Stochastic Ensemble Micro-Batching}
+TabFM processes queries through a 32-way ensemble, applying unique feature permutations and scaling transformations to each view. Passing the full ensemble tensor $X \in \mathbb{R}^{32 \times N \times D}$ through the computational graph with \texttt{requires\_grad=True} consumes in excess of 14.5 GiB of VRAM, causing immediate Out-of-Memory (OOM) failures on standard NVIDIA T4 hardware.
+
+To solve this, we introduce \textit{Stochastic Ensemble Micro-Batching}. At each optimization step $t$, we uniformly sample a subset of ensemble members $\mathcal{S} \subset \{1, ..., 32\}$ such that $|\mathcal{S}| = 2$. We compute the gradients strictly on these two views and average them. Because the target manifold is shared across all ensemble members, this behaves analogously to Stochastic Gradient Descent (SGD) over the ensemble dimension, keeping VRAM strictly below 6 GiB.
+
+\subsection{Black-Box Differentiable Kernel Surrogate}
+To evaluate transferability, we define a Nadaraya-Watson kernel regression surrogate. Unlike MLPs that require weight updates, Kernel Regression predicts the query label $\hat{y}_q$ directly from the context window $(X_c, y_c)$ via non-parametric distance functions:
+\begin{equation}
+    \hat{y}_q = \sum_{i=1}^{N_c} \frac{\exp(-\|x_q - x_{c,i}\|_2^2 / 2\sigma^2)}{\sum_{j=1}^{N_c} \exp(-\|x_q - x_{c,j}\|_2^2 / 2\sigma^2)} y_{c,i}
+\end{equation}
+This formula is fully differentiable. By maximizing the Mean Squared Error (MSE) on this surrogate using PGD, we generate adversarial context rows. Because the surrogate mirrors the nearest-neighbor clustering behavior of the Set Transformer's attention mechanism, perturbations generated here transfer seamlessly to TabFM.

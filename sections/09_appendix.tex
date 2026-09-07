@@ -1,0 +1,41 @@
+\section{Appendix}
+\subsection{Dataset Details and Schema Preprocessing}
+The empirical evaluations in this manuscript utilized three standard benchmarks from the UCI Machine Learning Repository to evaluate the universality of the attack:
+
+\textbf{California Housing Dataset (Regression):}
+Contains 20,640 samples and 8 continuous numerical features (MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup, Latitude, Longitude). The target variable is the median house value in units of \$100,000. 
+
+\textbf{Breast Cancer Wisconsin (Classification):}
+Contains 569 samples and 30 continuous features computed from a digitized image of a fine needle aspirate (FNA) of a breast mass. The target is binary (Malignant vs. Benign).
+
+\textbf{Diabetes (Regression):}
+Contains 442 samples and 10 features (Age, Sex, Body Mass Index, Average Blood Pressure, and six blood serum measurements). The target is a quantitative measure of disease progression one year after baseline.
+
+\subsection{Extended Hyperparameter Configurations}
+The success of the Projected Gradient Descent (PGD) attack on Tabular Foundation Models is highly sensitive to the step size $\alpha$. 
+
+\begin{table}[h]
+\centering
+\caption{PGD Hyperparameters for White-Box Attacks}
+\begin{tabular}{lc}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Optimization Steps ($T$) & 100 \\
+Epsilon Bound ($\epsilon$) & $0.05 \times \text{Range}(X_c)$ \\
+Step Size ($\alpha$) & $\epsilon / 5$ \\
+Ensemble Batch Size & 2 \\
+PyTorch Precision & Float32 \\
+Loss Function (Regression) & Mean Squared Error \\
+Loss Function (Classification) & Cross Entropy Loss \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Hardware and Computational Cost}
+All experiments were conducted on a single Google Cloud instance equipped with an NVIDIA T4 GPU (16 GiB VRAM), 8 vCPUs, and 30 GB of RAM. The zero-shot inference time for TabFM with 100 context rows is approximately 0.4 seconds. Generating the adversarial context via 100 steps of Stochastic Ensemble Micro-Batching took approximately 14.2 seconds per query batch, making this attack highly feasible for real-time API exploitation.
+
+\subsection{Societal Impact and Limitations}
+The vulnerability of Tabular Foundation Models to adversarial context poisoning poses a significant threat to enterprise ML systems. If an organization exposes an API backed by a TFM, an adversary could inject poisoned records into the database. When the TFM queries those records to form its context window, the adversary could force the model to approve fraudulent loans, misdiagnose patients, or deny valid insurance claims. 
+
+A limitation of this work is the strict isolation of the continuous subspace. While effective, future work should explore the integration of discrete optimization techniques (e.g., Genetic Algorithms, Gumbel-Softmax) to simultaneously perturb both continuous and categorical variables, potentially achieving even higher adversarial success rates at lower $\epsilon$ thresholds.

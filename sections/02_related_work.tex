@@ -1,0 +1,9 @@
+\section{Related Work}
+\subsection{Tabular Foundation Models}
+The adaptation of transformers to tabular data began with architectures like FT-Transformer and TabNet, which required dataset-specific training. TabPFN \cite{hollmann2022tabpfn} revolutionized this by pre-training a prior on synthetic datasets, allowing for zero-shot in-context learning. TabFM \cite{kong2026tabfm} builds upon this by utilizing Set Transformers and alternating attention to handle mixed-type categorical and continuous data efficiently.
+
+\subsection{Adversarial Machine Learning}
+Adversarial attacks on continuous modalities (images, audio) via Fast Gradient Sign Method (FGSM) \cite{goodfellow2014explaining} and PGD \cite{madry2017pgd} are well understood. However, tabular data introduces strict schema constraints: values must obey physical bounds (e.g., Age $> 0$) and categorical variables are inherently non-differentiable. Previous work on tabular adversarial examples primarily targeted tree-based models using discrete optimization algorithms. 
+
+\subsection{Data Poisoning in In-Context Learning}
+Recent studies in LLMs have shown that poisoned prompts can trigger targeted misclassification. However, to our knowledge, this is the first comprehensive study extending adversarial context poisoning to Tabular Foundation Models, isolating the continuous subspace to optimize the ICL window directly.

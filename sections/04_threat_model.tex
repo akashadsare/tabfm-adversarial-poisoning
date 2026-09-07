@@ -1,0 +1,25 @@
+\section{Threat Model}
+We evaluate the vulnerability of TabFM under two distinct threat models:
+\begin{enumerate}
+    \item \textbf{White-Box (API Access):} The attacker possesses the TabFM model weights and can backpropagate gradients directly through the Set Transformer. This simulates a scenario where an enterprise open-sources their tabular model.
+    \item \textbf{Black-Box (Transferability):} The attacker does not have access to TabFM. Instead, the attacker trains a non-parametric Differentiable Kernel Regression surrogate, optimizes the poisoned context, and transfers the attack to the TabFM endpoint.
+\end{enumerate}
+
+In both models, the attacker is bounded by an $L_\infty$ norm $\epsilon = 0.05 \times (\max(X) - \min(X))$ to ensure the poisoned context rows appear statistically valid during manual auditing. As demonstrated in Table \ref{tab:qualitative}, a 5\% shift alters the continuous variables within reasonable, human-imperceptible tolerances (e.g., modifying House Age from 41 to 44 years, or Median Income by a few thousand dollars), ensuring the row bypasses standard enterprise anomaly detection algorithms. Furthermore, for variables that are strictly typed as integers in production database schemas (such as Age or Population), the attacker applies a post-hoc $\texttt{round()}$ operation to the adversarial tensor to guarantee strict schema compliance without losing the adversarial gradient alignment.
+
+\begin{table}[h]
+\centering
+\caption{Qualitative Example of a 5\% Adversarial Shift (California Housing)}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Feature} & \textbf{Clean Row} & \textbf{Poisoned Row} & \textbf{Valid?} \\
+\midrule
+\texttt{MedInc} (x10k \$) & 8.3252 & 8.7104 & \checkmark \\
+\texttt{HouseAge} (Years) & 41.0 & 44.0 & \checkmark \\
+\texttt{AveRooms} & 6.9841 & 6.4211 & \checkmark \\
+\texttt{Population} & 322.0 & 338.0 & \checkmark \\
+\bottomrule
+\end{tabular}
+\label{tab:qualitative}
+\end{table}
+

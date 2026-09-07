@@ -1,0 +1,67 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{chen2016xgboost}
+\citation{hollmann2022tabpfn}
+\citation{kong2026tabfm}
+\citation{hollmann2022tabpfn}
+\citation{kong2026tabfm}
+\citation{goodfellow2014explaining}
+\citation{madry2017pgd}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Tabular Foundation Models}{1}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Adversarial Machine Learning}{1}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Data Poisoning in In-Context Learning}{1}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Theoretical Background}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Set Transformers and Row Interaction}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Continuous Subspace Projection}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Threat Model}{2}{section.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Qualitative Example of a 5\% Adversarial Shift (California Housing)}}{2}{table.1}\protected@file@percent }
+\newlabel{tab:qualitative}{{I}{2}{Qualitative Example of a 5\% Adversarial Shift (California Housing)}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Methodology}{2}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Continuous Subspace Poisoning}{2}{subsection.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Continuous Subspace PGD for TabFM}}{2}{table.2}\protected@file@percent }
+\newlabel{alg:pgd}{{II}{2}{Continuous Subspace PGD for TabFM}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Stochastic Ensemble Micro-Batching}{2}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Black-Box Differentiable Kernel Surrogate}{3}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Experiments}{3}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Massive Multi-Dataset Vulnerability Benchmark}{3}{subsection.6.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Massive Multi-Dataset Vulnerability Benchmark ($\epsilon =0.05$)}}{3}{table.3}\protected@file@percent }
+\newlabel{tab:benchmark}{{III}{3}{Massive Multi-Dataset Vulnerability Benchmark ($\epsilon =0.05$)}{table.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Categorical Generalization (Adult Census)}{3}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Black-Box Transfer Attack}{3}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Comparative Robustness (XGBoost)}{3}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Explainability and Saliency Maps}{3}{subsection.6.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Gradient Saliency Heatmaps. (Left) The Clean model distributes its attention logically across critical features like Median Income. (Right) The Poisoned model exhibits extreme attention hijacking, fixating aggressively on adversarial artifacts within the context rows.}}{3}{figure.1}\protected@file@percent }
+\newlabel{fig:saliency}{{1}{3}{Gradient Saliency Heatmaps. (Left) The Clean model distributes its attention logically across critical features like Median Income. (Right) The Poisoned model exhibits extreme attention hijacking, fixating aggressively on adversarial artifacts within the context rows}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-F}}Hyperparameter Attack Surface}{4}{subsection.6.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Adversarial Attack Surface Heatmap. The contour maps the MSE degradation across varying context sizes and noise budgets. The intense red saturation across the entire grid proves that TabFM is hyper-fragile.}}{4}{figure.2}\protected@file@percent }
+\newlabel{fig:attack_surface}{{2}{4}{Adversarial Attack Surface Heatmap. The contour maps the MSE degradation across varying context sizes and noise budgets. The intense red saturation across the entire grid proves that TabFM is hyper-fragile}{figure.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Defenses}{4}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}KNN Sanitization Baseline}{4}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}Proposed Defense: Context Subsampling}{4}{subsection.7.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Effect of Context Subsampling on Adversarial Alignment.}}{4}{figure.3}\protected@file@percent }
+\newlabel{fig:defense}{{3}{4}{Effect of Context Subsampling on Adversarial Alignment}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}Theoretical Extension: Certified Robustness via Randomized Smoothing}{4}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion}{4}{section.8}\protected@file@percent }
+\bibstyle{IEEEtran}
+\bibcite{kong2026tabfm}{1}
+\bibcite{hollmann2022tabpfn}{2}
+\bibcite{madry2017pgd}{3}
+\bibcite{chen2016xgboost}{4}
+\bibcite{wang2023adversarial}{5}
+\bibcite{brown2020language}{6}
+\bibcite{vaswani2017attention}{7}
+\bibcite{lee2019set}{8}
+\bibcite{goodfellow2014explaining}{9}
+\bibcite{carlini2017towards}{10}
+\@writefile{toc}{\contentsline {section}{References}{5}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Appendix}{6}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A}Dataset Details and Schema Preprocessing}{6}{subsection.Appendix.A.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B}Extended Hyperparameter Configurations}{6}{subsection.Appendix.A.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces PGD Hyperparameters for White-Box Attacks}}{6}{table.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {C}Hardware and Computational Cost}{6}{subsection.Appendix.A.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {D}Societal Impact and Limitations}{6}{subsection.Appendix.A.4}\protected@file@percent }
+\gdef \@abspage@last{6}
